@@ -4,7 +4,7 @@ async function isLoggedIn () {
   if (token === null) {
     console.log('login');
   } else {
-    window.location.href = './dashboard.html';
+    window.location.href = './pages/dashboard.html';
     }
 }
 
@@ -41,7 +41,7 @@ loginButton.addEventListener("click", (e) => {
 
     localStorage.setItem('token', data.access_token)
     localStorage.setItem('refresh_token', data.refresh_token)
-    window.location.href = './dashboard.html';
+    window.location.href = './pages/dashboard.html';
 
     }).catch(function (error) {
         alert('Wrong credentials....Check and try again!')
