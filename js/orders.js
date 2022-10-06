@@ -10,6 +10,7 @@ const access_token = localStorage.getItem('token');
 const refresh_token = localStorage.getItem('refresh_token');
 const prevButton = document.getElementById('previousButton')
 const nextButton = document.getElementById('nextButton')
+const searchBar = document.getElementById('search-input')
 
 let pageSize = 10;
 let currentPage = 1;
@@ -161,4 +162,28 @@ function format(inputDate) {
 
     return `${date}/${month}/${year}`;
 }
+
+
+searchBar.addEventListener('keyup', function (e) {
+    const currentword = e.target.value;
+fetch(`https://freddy.codesubmit.io/orders?page=${currentPage}&q=${currentword}`, {
+  method: "GET",
+  headers: {
+    "Content-type": "application/json;charset=UTF-8",
+    "Authorization": "Bearer "+access_token
+}
+})
+.then(response => response.json())
+.then(json => {
+    if (json.msg) {
+        checkAndRquest()
+    } else {
+        console.log(json.orders);
+        getTableRawData(json.orders)
+        dataSize = Object.keys(json.orders).length
+}
+})
+.catch(err => console.log(err));
+
+});
 

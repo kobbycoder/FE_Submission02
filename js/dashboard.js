@@ -199,3 +199,4 @@ async function loadDataIntoTable(data, table) {
         }
         document.getElementById("table_body").innerHTML = tableData
 }
+
