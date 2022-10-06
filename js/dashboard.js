@@ -135,6 +135,7 @@ const barWeekChart = (data) => {
     myWeek.forEach((rev) => chart.append(createBarItems(rev)))
 }
 
+//switch statistics
 const ShowHideDiv = (checkChart) => {
     var week = document.getElementById("myWeek")
     var month = document.getElementById("myMonth")
@@ -183,15 +184,10 @@ const barMonthChart = (data) => {
     myWeek.forEach((rev) => chart.append(createBarItems(rev)))
 }
 
-//populate best
+//populate bestseller
 async function loadDataIntoTable(data, table) {
-    console.log(data);
     let tableData = "";
     for (var k = 0; k < Object.keys(data).length; k++){
-           console.log(data[k].product.name);
-           console.log(data[k].revenue);
-           console.log(data[k].units);
-           console.log(data[k].revenue/data[k].units);
            tableData+=`
             <tr>
                 <td class="product">${data[k].product.name}</td>
