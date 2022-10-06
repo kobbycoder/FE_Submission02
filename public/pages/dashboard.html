@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard - Freddy's</title>
+    <link rel="" href="" />
+    <script defer src="/js/dashboard.js"></script>
+    <link rel="stylesheet" href="/assets/css/dashboard.css">
+</head>
+<body>
+    <noscript>This dashboard portal requires JavaScript to verify your identity. Please enable JavaScript to access content.</noscript>
+    <div class="main">
+        <div class="side">
+            <img src="/assets/img/Freddys_Logo.svg" alt="" />
+            <nav>
+                <a href="/pages/dashboard.html">Dashboard</a>
+                <a href="/pages/orders.html">Orders</a>
+                <a href="/index.html" id="logOut">Logout</a>
+            </nav>
+        </div>
+        <div class="dashboard">
+            <h1>Dashboard</h1>
+            <div class="summary-container">
+                <div class="summary">
+                    <p>Today</p>
+                    <p id="today" class="values">Loading...</p>
+                </div>
+                <div class="summary">
+                    <p>Last Week</p>
+                    <p id="lastweek" class="values">Loading...</p>
+                </div>
+                <div class="summary">
+                    <p>Last Month</p>
+                    <p id="lastmonth" class="values">Loading...</p>
+                </div>
+            </div>
+            <div class="days-stats">
+              <div class="top">
+                <p id="statsTitle">Revenue (last 7 days)</p>
+                <label class="switch">
+                    <input type="checkbox" id="chkPassport" onclick="ShowHideDiv(this)">
+                    <span class="slider round"></span>
+                </label>
+              </div>
+              <div class="week-stats" id="myWeek">
+              </div>
+                <div class="month-stats" id="myMonth">
+              </div>
+            </div>
+            <div class="bestseller-container">
+                <h1>Bestsellers</h1>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>($)Price</th>
+                            <th>#Units Sold</th>
+                            <th>($)Revenue</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table_body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

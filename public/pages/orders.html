@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders - Freddy's</title>
+    <script defer src="/js/orders.js"></script>
+    <link rel="stylesheet" href="/assets/css/orders.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="main">
+        <div class="side">
+          <img src="/assets/img/Freddys_Logo.svg" alt="" />
+            <nav class="nav">
+                <a href="/pages/dashboard.html">Dashboard</a>
+                <a href="/pages/orders.html">Orders</a>
+                <a href="/index.html" id="logOut">Logout</a>
+            </nav>
+        </div>
+        <div class="orders">
+            <div class="top">
+                <h1>Orders</h1>
+                <div class="search-container">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input id="search-input" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="orders-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                     <th>Product Name</th>
+                     <th>Date</th>
+                     <th>Price</th>
+                     <th>Status</th>
+                 </tr>
+                </thead>
+            <tbody id="table_body">
+            </tbody>
+            </table>
+            </div>
+            <nav class="page">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <button class="page-link" id="previousButton">Previous</button>
+                    </li>
+                    <li class="page-item">
+                        <button class="page-link" id="nextButton">Next</button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</body>
+</html>
