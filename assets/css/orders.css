@@ -26,13 +26,13 @@ html,body {
   margin-top: 3rem;
 }
 
-nav {
+.nav {
   display: flex;
   flex-direction: column;
   margin-top: 3rem;
 }
 
-nav > a {
+.nav > a {
   text-decoration: none;
   margin-bottom: 2rem;
   color: black;
@@ -68,7 +68,6 @@ input {
   flex-direction: column;
   margin-top: 1rem;
   width: 100%; 
-  height: 100vh;
   overflow: auto;
 }
 
@@ -89,3 +88,11 @@ table {
   padding: 10px 20px;
 }
 
+.pagination {
+    display: flex;
+    align-items: center;
+}
+
+.page-link{
+    margin-right: 1rem;
+}

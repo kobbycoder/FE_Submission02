@@ -8,7 +8,14 @@ const url = 'https://freddy.codesubmit.io/orders?page=1&q=';
 const refreshUrl = 'https://freddy.codesubmit.io/refresh'
 const access_token = localStorage.getItem('token');
 const refresh_token = localStorage.getItem('refresh_token');
+const prevButton = document.getElementById('previousButton')
+const nextButton = document.getElementById('nextButton')
 
+let pageSize = 10;
+let currentPage = 1;
+var dataSize = 0;
+
+const getData = (page = 1) => {
 fetch(url, {
   method: "GET",
   headers: {
@@ -23,9 +30,25 @@ fetch(url, {
     } else {
         console.log(json.orders);
         getTableRawData(json.orders)
+        dataSize = Object.keys(json.orders).length
 }
 })
 .catch(err => console.log(err));
+
+ if (page == 1) {
+    prevButton.style.visibility = "hidden";
+  } else {
+    prevButton.style.visibility = "visible";
+  }
+
+  if (page == numPages()) {
+    nextButton.style.visibility = "hidden";
+  } else {
+    nextButton.style.visibility = "visible";
+  }
+}
+
+getData()
 
 // check for token expiry and request new one
 const checkAndRquest = () => {
@@ -57,19 +80,35 @@ function nFormatter(num) {
 }
 
 const getTableRawData = (orders) => {
+    var allData = []
+
+    console.log(orders);
+
     let tableData = "";
     for (var k = 0; k < Object.keys(orders).length; k++){
-        const str = orders[k].status;
+            allData.push(orders[k])
+    }
+
+    console.log(allData);
+
+    allData.filter((row, index) => {
+    let start = (currentPage - 1) * pageSize
+    let end = currentPage * pageSize
+
+    if (index >= start && index < end) return true;
+    }).forEach(data => {
+        const str = data.status;
         const status = str.charAt(0).toUpperCase() + str.slice(1)
            tableData+=`
             <tr>
-                <td>${orders[k].product.name}</td>
-                <td>${format(new Date(orders[k].created_at))}</td>
-                <td>${(orders[k].total/orders[k].product.quantity).toFixed(2)}</td>
+                <td>${data.product.name}</td>
+                <td>${format(new Date(data.created_at))}</td>
+                <td>${(data.total/data.product.quantity).toFixed(2)}</td>
                 <td>${status}</td>
             </tr>
            `
-        }
+    })
+
         document.getElementById("table_body").innerHTML = tableData
 
         elements = document.getElementsByTagName("td")
@@ -82,6 +121,30 @@ const getTableRawData = (orders) => {
         }
     }
 }
+
+function previousPage() {
+    if (currentPage > 1) {
+        currentPage--;
+        getData(currentPage)
+    }
+}
+
+function nextPage() {
+    console.log(dataSize);
+    if ((currentPage * pageSize) < dataSize) {
+        currentPage++;
+        getData(currentPage)
+    }
+}
+
+function numPages() {
+  return Math.ceil(dataSize.length / pageSize);
+}
+
+
+document.querySelector('#previousButton').addEventListener('click', previousPage, false)
+document.querySelector('#nextButton').addEventListener('click', nextPage, false)
+
 
 function format(inputDate) {
     let date,
