@@ -1,19 +1,21 @@
 document.documentElement.classList.remove('no-js')
+
+//declare variables
 const today = document.getElementById("today");
 const lastWeek = document.getElementById("lastweek");
 const lastMonth = document.getElementById("lastmonth");
 
+//logout
 document.getElementById('logOut').onclick = function logout() {
     localStorage.removeItem("token");
     window.location.href = './index.html'
 }
 
-
+//declare url and fetch dashboard data
 const url = 'https://freddy.codesubmit.io/dashboard';
 const refreshUrl = 'https://freddy.codesubmit.io/refresh'
 const access_token = localStorage.getItem('token');
 const refresh_token = localStorage.getItem('refresh_token');
-console.log(`Bearer ${access_token}`);
 
 fetch(url, {
   method: "GET",
@@ -29,10 +31,12 @@ fetch(url, {
     } else {
         const weekData = json.dashboard.sales_over_time_week
         const monthsData = json.dashboard.sales_over_time_year
-        console.log(weekData);
-        console.log(monthsData);
+        const bestSellerData = json.dashboard.bestsellers
+
+        loadDataIntoTable(bestSellerData, document.querySelector("table"))
         barWeekChart(weekData)
         barMonthChart(monthsData)
+
         
         var todayTotal, todayOrders;
         var lastWeekTotal = 0;
@@ -60,6 +64,7 @@ fetch(url, {
 })
 .catch(err => console.log(err));
 
+//check for token expiry and request new one
 const checkAndRquest = () => {
 fetch(refreshUrl, {
     method: "POST",
@@ -73,12 +78,13 @@ fetch(refreshUrl, {
        {
          console.log(json.access_token)
         localStorage.setItem('token', json.access_token)
+        window.location.href = './dashboard.html'
     }
     )
     .catch(err => console.log(err));
 }
 
-
+//revenue amount formatter
 function nFormatter(num) {
     if (num >= 1000000000) {
         return(num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'G';
@@ -92,6 +98,7 @@ function nFormatter(num) {
     return num;
 }
 
+//chart for weekly
 const barWeekChart = (data) => {
     const revenueList = []
     var allData = []
@@ -100,12 +107,10 @@ const barWeekChart = (data) => {
     var size = Object.keys(data).length;
 
     for (var i = 1; i < size +1; i++) {
-        console.log(i);
         revenueList.push({day:day[i-1],value:data[i].total})
         allData = [...revenueList]
         sum +=data[i].total
     }
-    console.log(allData);
     let myWeek = allData.map((item) => ({
         day:item.day,
         percent: (item.value/sum*100)+1
@@ -141,6 +146,7 @@ const ShowHideDiv = (checkChart) => {
 }
 
 
+//monthly chart
 const barMonthChart = (data) => {
      const revenueList = []
     var allData = []
@@ -149,12 +155,10 @@ const barMonthChart = (data) => {
     var size = Object.keys(data).length;
 
     for (var i = 1; i < size +1; i++) {
-        console.log(i);
         revenueList.push({day:day[i-1],value:data[i].total})
         allData = [...revenueList]
         sum +=data[i].total
     }
-    console.log(allData);
     let myWeek = allData.map((item) => ({
         day:item.day,
         percent: (item.value/sum*100)
@@ -179,3 +183,23 @@ const barMonthChart = (data) => {
     myWeek.forEach((rev) => chart.append(createBarItems(rev)))
 }
 
+//populate best
+async function loadDataIntoTable(data, table) {
+    console.log(data);
+    let tableData = "";
+    for (var k = 0; k < Object.keys(data).length; k++){
+           console.log(data[k].product.name);
+           console.log(data[k].revenue);
+           console.log(data[k].units);
+           console.log(data[k].revenue/data[k].units);
+           tableData+=`
+            <tr>
+                <td class="product">${data[k].product.name}</td>
+                <td>${data[k].revenue/data[k].units}</td>
+                <td>${data[k].units}</td>
+                <td>${nFormatter(data[k].revenue)}</td>
+            </tr>
+           `
+        }
+        document.getElementById("table_body").innerHTML = tableData
+}
