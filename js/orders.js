@@ -22,6 +22,7 @@ fetch(url, {
         checkAndRquest()
     } else {
         console.log(json.orders);
+        getTableRawData(json.orders)
 }
 })
 .catch(err => console.log(err));
@@ -41,4 +42,60 @@ const checkAndRquest = () => {
     }).catch(err => console.log(err));
 }
 
+// revenue amount formatter
+function nFormatter(num) {
+    if (num >= 1000000000) {
+        return(num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'G';
+    }
+    if (num >= 1000000) {
+        return(num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+    }
+    if (num >= 1000) {
+        return(num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    }
+    return num;
+}
+
+const getTableRawData = (orders) => {
+    let tableData = "";
+    for (var k = 0; k < Object.keys(orders).length; k++){
+        const str = orders[k].status;
+        const status = str.charAt(0).toUpperCase() + str.slice(1)
+           tableData+=`
+            <tr>
+                <td>${orders[k].product.name}</td>
+                <td>${format(new Date(orders[k].created_at))}</td>
+                <td>${(orders[k].total/orders[k].product.quantity).toFixed(2)}</td>
+                <td>${status}</td>
+            </tr>
+           `
+        }
+        document.getElementById("table_body").innerHTML = tableData
+
+        elements = document.getElementsByTagName("td")
+        for (var i = elements.length; i--;) {
+            if (elements[i].innerHTML === "Processing") {
+            elements[i].style.color = "red";
+        }
+            if (elements[i].innerHTML === "Delivered") {
+            elements[i].style.color = "#70D406";
+        }
+    }
+}
+
+function format(inputDate) {
+    let date,
+        month,
+        year;
+
+    date = inputDate.getDate();
+    month = inputDate.getMonth() + 1;
+    year = inputDate.getFullYear();
+
+    date = date.toString().padStart(2, '0');
+
+    month = month.toString().padStart(2, '0');
+
+    return `${date}/${month}/${year}`;
+}
 
