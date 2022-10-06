@@ -26,7 +26,7 @@
             <div class="summary-container">
                 <div class="summary">
                     <p>Today</p>
-                    <p id="today" class="values">$Loading...</p>
+                    <p id="today" class="values">Loading...</p>
                 </div>
                 <div class="summary">
                     <p>Last Week</p>
@@ -39,14 +39,15 @@
             </div>
             <div class="days-stats">
               <div class="top">
-                <p>Revenue (last 7 days)</p>
+                <p id="statsTitle">Revenue (last 7 days)</p>
                 <label class="switch">
-                    <input type="checkbox">
+                    <input type="checkbox" id="chkPassport" onclick="ShowHideDiv(this)">
                     <span class="slider round"></span>
                 </label>
               </div>
-              <div class="stats">
-                
+              <div class="week-stats" id="myWeek">
+              </div>
+                <div class="month-stats" id="myMonth">
               </div>
             </div>
         </div>
